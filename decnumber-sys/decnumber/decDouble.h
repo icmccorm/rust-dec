@@ -1,49 +1,59 @@
+/* decDouble module header for the decNumber C Library.
+   Copyright (C) 2007-2024 Free Software Foundation, Inc.
+   Contributed by IBM Corporation.  Author Mike Cowlishaw.
+
+   This file is part of GCC.
+
+   GCC is free software; you can redistribute it and/or modify it under
+   the terms of the GNU General Public License as published by the Free
+   Software Foundation; either version 3, or (at your option) any later
+   version.
+
+   GCC is distributed in the hope that it will be useful, but WITHOUT ANY
+   WARRANTY; without even the implied warranty of MERCHANTABILITY or
+   FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License
+   for more details.
+
+Under Section 7 of GPL version 3, you are granted additional
+permissions described in the GCC Runtime Library Exception, version
+3.1, as published by the Free Software Foundation.
+
+You should have received a copy of the GNU General Public License and
+a copy of the GCC Runtime Library Exception along with this program;
+see the files COPYING3 and COPYING.RUNTIME respectively.  If not, see
+<http://www.gnu.org/licenses/>.  */
+
 /* ------------------------------------------------------------------ */
-/* decDouble.h -- Decimal 64-bit format module header                 */
-/* ------------------------------------------------------------------ */
-/* Copyright (c) IBM Corporation, 2000, 2010.  All rights reserved.   */
-/*                                                                    */
-/* This software is made available under the terms of the             */
-/* ICU License -- ICU 1.8.1 and later.                                */
-/*                                                                    */
-/* The description and User's Guide ("The decNumber C Library") for   */
-/* this software is included in the package as decNumber.pdf.  This   */
-/* document is also available in HTML, together with specifications,  */
-/* testcases, and Web links, on the General Decimal Arithmetic page.  */
-/*                                                                    */
-/* Please send comments, suggestions, and corrections to the author:  */
-/*   mfc@uk.ibm.com                                                   */
-/*   Mike Cowlishaw, IBM Fellow                                       */
-/*   IBM UK, PO Box 31, Birmingham Road, Warwick CV34 5JL, UK         */
+/* decDouble.h -- Decimal 64-bit format module header		      */
 /* ------------------------------------------------------------------ */
 
 #if !defined(DECDOUBLE)
   #define DECDOUBLE
 
-  #define DECDOUBLENAME       "decimalDouble"         /* Short name   */
+  #define DECDOUBLENAME       "decimalDouble"	      /* Short name   */
   #define DECDOUBLETITLE      "Decimal 64-bit datum"  /* Verbose name */
-  #define DECDOUBLEAUTHOR     "Mike Cowlishaw"        /* Who to blame */
+  #define DECDOUBLEAUTHOR     "Mike Cowlishaw"	      /* Who to blame */
 
   /* parameters for decDoubles */
-  #define DECDOUBLE_Bytes   8      /* length                          */
-  #define DECDOUBLE_Pmax    16     /* maximum precision (digits)      */
+  #define DECDOUBLE_Bytes   8	   /* length			      */
+  #define DECDOUBLE_Pmax    16	   /* maximum precision (digits)      */
   #define DECDOUBLE_Emin   -383    /* minimum adjusted exponent       */
   #define DECDOUBLE_Emax    384    /* maximum adjusted exponent       */
-  #define DECDOUBLE_EmaxD   3      /* maximum exponent digits         */
-  #define DECDOUBLE_Bias    398    /* bias for the exponent           */
-  #define DECDOUBLE_String  25     /* maximum string length, +1       */
-  #define DECDOUBLE_EconL   8      /* exponent continuation length    */
-  #define DECDOUBLE_Declets 5      /* count of declets                */
+  #define DECDOUBLE_EmaxD   3	   /* maximum exponent digits	      */
+  #define DECDOUBLE_Bias    398    /* bias for the exponent	      */
+  #define DECDOUBLE_String  25	   /* maximum string length, +1       */
+  #define DECDOUBLE_EconL   8	   /* exponent continuation length    */
+  #define DECDOUBLE_Declets 5	   /* count of declets		      */
   /* highest biased exponent (Elimit-1) */
   #define DECDOUBLE_Ehigh (DECDOUBLE_Emax + DECDOUBLE_Bias - (DECDOUBLE_Pmax-1))
 
-  /* Required includes                                                */
+  /* Required includes						      */
   #include "decContext.h"
   #include "decQuad.h"
 
   /* The decDouble decimal 64-bit type, accessible by all sizes */
   typedef union {
-    uint8_t   bytes[DECDOUBLE_Bytes];   /* fields: 1, 5, 8, 50 bits */
+    uint8_t   bytes[DECDOUBLE_Bytes];	/* fields: 1, 5, 8, 50 bits */
     uint16_t shorts[DECDOUBLE_Bytes/2];
     uint32_t  words[DECDOUBLE_Bytes/4];
     #if DECUSE64
@@ -54,6 +64,8 @@
   /* ---------------------------------------------------------------- */
   /* Routines -- implemented as decFloat routines in common files     */
   /* ---------------------------------------------------------------- */
+
+  #include "decDoubleSymbols.h"
 
   /* Utilities and conversions, extractors, etc.) */
   extern decDouble * decDoubleFromBCD(decDouble *, int32_t, const uint8_t *, int32_t);
@@ -67,13 +79,13 @@
   extern int32_t     decDoubleGetExponent(const decDouble *);
   extern decDouble * decDoubleSetCoefficient(decDouble *, const uint8_t *, int32_t);
   extern decDouble * decDoubleSetExponent(decDouble *, decContext *, int32_t);
-  extern void        decDoubleShow(const decDouble *, const char *);
+  extern void	     decDoubleShow(const decDouble *, const char *);
   extern int32_t     decDoubleToBCD(const decDouble *, int32_t *, uint8_t *);
-  extern char      * decDoubleToEngString(const decDouble *, char *);
+  extern char	   * decDoubleToEngString(const decDouble *, char *);
   extern int32_t     decDoubleToInt32(const decDouble *, decContext *, enum rounding);
   extern int32_t     decDoubleToInt32Exact(const decDouble *, decContext *, enum rounding);
   extern int32_t     decDoubleToPacked(const decDouble *, int32_t *, uint8_t *);
-  extern char      * decDoubleToString(const decDouble *, char *);
+  extern char	   * decDoubleToString(const decDouble *, char *);
   extern uint32_t    decDoubleToUInt32(const decDouble *, decContext *, enum rounding);
   extern uint32_t    decDoubleToUInt32Exact(const decDouble *, decContext *, enum rounding);
   extern decQuad   * decDoubleToWider(const decDouble *, decQuad *);
@@ -132,11 +144,8 @@
   extern uint32_t      decDoubleIsFinite(const decDouble *);
   extern uint32_t      decDoubleIsInfinite(const decDouble *);
   extern uint32_t      decDoubleIsInteger(const decDouble *);
-  extern uint32_t      decDoubleIsLogical(const decDouble *);
   extern uint32_t      decDoubleIsNaN(const decDouble *);
-  extern uint32_t      decDoubleIsNegative(const decDouble *);
   extern uint32_t      decDoubleIsNormal(const decDouble *);
-  extern uint32_t      decDoubleIsPositive(const decDouble *);
   extern uint32_t      decDoubleIsSignaling(const decDouble *);
   extern uint32_t      decDoubleIsSignalling(const decDouble *);
   extern uint32_t      decDoubleIsSigned(const decDouble *);
